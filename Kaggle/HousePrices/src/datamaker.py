@@ -16,6 +16,9 @@ def unitary_coding(possible_val_lst, value):
         raise "Fatal error! Unrecognized symbol!"
     return coded_out
 
+
+
+
 all_attributes = \
     [
         ("MSSubClass", ["20", "30", "40", "45", "50", "60", "70", "75", "80", "85", "90", "120", "150", "160", "180", "190"]), #16
@@ -24,7 +27,17 @@ all_attributes = \
         ("LotArea", []), #2 = 28
         ("Street", ["Grvl", "Pave"]), #2 = 30
         ("Alley", ["Grvl", "Pave", "NA"]), #3 = 33
-        ("LotShape", ["Reg", "IR1", "IR2", "IR3"]) #4 = 37
+        ("LotShape", ["Reg", "IR1", "IR2", "IR3"]), #4 = 37
+        ("LandContour", ["Lvl", "Bnk", "HLS", "Low"]), #4 = 41
+        ("Utilities", ["AllPub", "NoSewr", "NoSeWa", "ELO"]), #4 = 45
+        ("LotConfig", ["Inside", "Corner", "CulDSac", "FR2", "FR3"]), #5 = 50
+        ("LandSlope", ["Gtl", "Mod", "Sev"]), #3 = 53
+        ("Neighborhood", ["Blmngtn", "Blueste", "BrDale", "BrkSide", "ClearCr", "CollgCr", "Crawfor", "Edwards", "Gilbert",
+                          "IDOTRR", "MeadowV", "Mitchel", "Names", "NoRidge", "NPkVill", "NridgHt", "NWAmes", "OldTown",
+                          "SWISU", "Sawyer", "SawyerW", "Somerst", "StoneBr", "Timber", "Veenker"]), #25 = 78
+        ("Condition1", ["Artery", "Feedr", "Norm", "RRNn", "RRAn", "PosN", "PosA", "RRNe", "RRAe"]), #9 = 87
+        ("Condition2", ["Artery", "Feedr", "Norm", "RRNn", "RRAn", "PosN", "PosA", "RRNe", "RRAe"]), #9 = 96
+        ("BldgType", ["1Fam", "2FmCon", "Duplx", "TwnhsE", "TwnhsI"]), #5 = 101
     ]
 
 def float_coding(valdct, attr, maxvals_dct):
