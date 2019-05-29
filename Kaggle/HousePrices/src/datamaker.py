@@ -16,9 +16,6 @@ def unitary_coding(possible_val_lst, value):
         raise "Fatal error! Unrecognized symbol!"
     return coded_out
 
-
-
-
 all_attributes = \
     [
         ("MSSubClass", ["20", "30", "40", "45", "50", "60", "70", "75", "80", "85", "90", "120", "150", "160", "180", "190"]), #16
@@ -38,7 +35,28 @@ all_attributes = \
         ("Condition1", ["Artery", "Feedr", "Norm", "RRNn", "RRAn", "PosN", "PosA", "RRNe", "RRAe"]), #9 = 87
         ("Condition2", ["Artery", "Feedr", "Norm", "RRNn", "RRAn", "PosN", "PosA", "RRNe", "RRAe"]), #9 = 96
         ("BldgType", ["1Fam", "2FmCon", "Duplx", "TwnhsE", "TwnhsI"]), #5 = 101
+        ("HouseStyle", ["1Story", "1.5Fin", "1.5Unf", "2Story", "2.5Fin", "2.5Unf", "SFoyer", "SLvl"]), #8 = 109
+        ("OverallQual", []), #2 = 111
+        ("OverallCond", []), #2 = 113
+        ("YearBuilt", []), #2 = 115
+        ("YearRemodAdd", []), #2 = 117
+        ("RoofStyle", ["Flat", "Gable", "Gambrel", "Hip", "Mansard", "Shed"]), #6 = 123
+        ("RoofMatl", ["ClyTile", "CompShg", "Membran", "Metal", "Roll", "Tar&Grv", "WdShake", "WdShngl"]), #8 = 131
+        ("Exterior1st", ["AsbShng", "AsphShn", "BrkComm", "BrkFace", "CBlock", "CemntBd", "HdBoard", "ImStucc",
+                         "MetalSd", "Other", "Plywood", "PreCast", "Stone", "Stucco", "VinylSd", "Wd Sdng", "WdShing"]), #17 = 148
+        ("Exterior2nd", ["AsbShng", "AsphShn", "BrkComm", "BrkFace", "CBlock", "CemntBd", "HdBoard", "ImStucc",
+                         "MetalSd", "Other", "Plywood", "PreCast", "Stone", "Stucco", "VinylSd", "Wd Sdng", "WdShing"]), # 17 = 165
+        ("MasVnrType", ["BrkCmn", "BrkFace", "CBlock", "None", "Stone"]), #5 = 170
+        ("MasVnrArea", []), #2 = 172
+        ("ExterQual", ["Ex", "Gd", "TA", "Fa", "Po"]), #5 = 177
+        ("ExterCond", ["Ex", "Gd", "TA", "Fa", "Po"]), #5 = 182
+        ("Foundation", ["BrkTil", "CBlock", "PConc", "Slab", "Stone", "Wood"]), #6 = 188
+        ("BsmtQual", ["Ex", "Gd", "TA", "Fa", "Po", "NA"]), #6 = 194
+        ("BsmtCond", ["Ex", "Gd", "TA", "Fa", "Po", "NA"]), #6 = 200
+        ("BsmtExposure", ["Gd", "Av", "Mn", "No", "NA"]), #5 = 205
     ]
+
+
 
 def float_coding(valdct, attr, maxvals_dct):
     retarr = np.zeros(2)
