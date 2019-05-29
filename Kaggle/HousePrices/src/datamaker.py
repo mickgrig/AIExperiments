@@ -54,8 +54,37 @@ all_attributes = \
         ("BsmtQual", ["Ex", "Gd", "TA", "Fa", "Po", "NA"]), #6 = 194
         ("BsmtCond", ["Ex", "Gd", "TA", "Fa", "Po", "NA"]), #6 = 200
         ("BsmtExposure", ["Gd", "Av", "Mn", "No", "NA"]), #5 = 205
+        ("BsmtFinType1", ["GLQ", "ALQ", "BLQ", "Rec", "LwQ", "Unf", "NA"]), #7 = 212
+        ("BsmtFinSF1", []), #2 = 214
+        ("BsmtFinType2", ["GLQ", "ALQ", "BLQ", "Rec", "LwQ", "Unf", "NA"]), #7 = 221
+        ("BsmtFinSF2", []), #2 = 223
+        ("BsmtUnfSF", []), #2 = 225
+        ("TotalBsmtSF", []), #2 = 227
+        ("Heating", ["Floor", "GasA", "GasW", "Grav", "OthW", "Wall"]), #6 = 233
+        ("HeatingQC", ["Ex", "Gd", "TA", "Fa", "Po"]), #5 = 238
+        ("CentralAir", ["N", "Y"]), #2 = 240
+        ("Electrical", ["SBrkr", "FuseA", "FuseF", "FuseP", "Mix"]), #5 = 245
+        ("1stFlrSF", []), #2 = 247
+        ("2ndFlrSF", []), #2 = 249
+        ("LowQualFinSF", []), #2 = 251
+        ("GrLivArea", []), #2 = 253
+        ("BsmtFullBath", []), #2 = 255
+        ("BsmtHalfBath", []), #2 = 257
+        ("FullBath", []), #2 = 259
+        ("HalfBath", []), #2 = 261
+        ("Bedroom", []), #2 = 263
+        ("Kitchen", []), #2 = 265
+        ("KitchenQual", ["Ex", "Gd", "TA", "Fa", "Po"]), #5 = 270
+        ("TotRmsAbvGrd", []), #2 = 272
+        ("Functional", ["Typ", "Min1", "Min2", "Mod", "Maj1", "Maj2", "Sev", "Sal"]), #8 = 280
+        ("Fireplaces", []), #2 = 282
+        ("FireplaceQu", ["Ex", "Gd", "TA", "Po", "NA"]), #5 = 287
+        ("GarageType", ["2Types", "Attchd", "Basment", "BuiltIn", "CarPort", "Detchd", "NA"]), #7 = 294
+        ("GarageYrBlt", []), #2 = 296
+        ("GarageFinish", ["Fin", "RFn", "Unf", "NA"]), #4 = 300
+        ("GarageCars", []), #2 = 302
+        ("GarageArea", []), #2 = 304
     ]
-
 
 
 def float_coding(valdct, attr, maxvals_dct):
