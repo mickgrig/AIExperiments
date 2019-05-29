@@ -27,27 +27,41 @@ def unitary_coding(estimation_lst, value):
         raise "Fatal error! Unrecognized symbol!"
     return coded_out
 
-# def get_max_val(attr, file_name):
-#     max_val = 0
-#     with open(file_name) as file_obj:
-#         reader = csv.DictReader(file_obj, delimiter=',')
-#         str_lst = [line[attr] for line in reader]
-#         for i in range(0, len(str_lst)):
-#             if str_lst[i] == "NA":
-#                 str_lst[i] = "0"
-#         max_val = max([float(strval) for strval in str_lst])
-#     return max_val
+def to_float(strval):
+    if strval == "NA":
+        return 0
+    else:
+        return float(strval)
+
+def get_max_val(attr, dctlst):
+    max_val = 0
+    str_lst = [valdct[attr] for valdct in dctlst]
+    for i in range(0, len(str_lst)):
+        if str_lst[i] == "NA":
+            str_lst[i] = "0"
+    max_val = max([to_float(strval) for strval in str_lst])
+    return max_val
 
 def file_to_data(file_name):
     with open(file_name) as file_obj:
-        reader = csv.DictReader(file_obj, delimiter=',')
-        lot_frontage_max = get_max_val("LotFrontage", file_name)
-        print("lot_fr_max=", lot_frontage_max)
+
+        #lot_frontage_max = get_max_val("LotFrontage", file_name)
+        #print("lot_fr_max=", lot_frontage_max)
         i = 0
+        reader = csv.DictReader(file_obj, delimiter=',')
+        dctlst = []
         for line in reader:
+            linedct = dict()
+            linedct["Id"] = line["Id"]
+            linedct["MSSubClass"] = line["MSSubClass"]
+            linedct["MSZoning"] = line["MSZoning"]
+            linedct["LotFrontage"] = line["LotFrontage"]
+            dctlst.append(linedct)
             #print(line)
-            inarr = unitary_coding(["20", "30", "40", "45", "50", "60", "70", "75", "80", "85", "90", "120", "150", "160", "180", "190"], line["MSSubClass"])
-            inarr = np.hstack((inarr, unitary_coding(["A", "C", "FV", "I", "RH", "RL", "RP", "RM"], line["MSZoning"])))
-            print(line["LotFrontage"])
+            #print(line["LotFrontage"])
             #print("value=", line["MSSubClass"], ", code=", ms_sub_class)
+        for valdct in dctlst:
+            inarr = unitary_coding(["20", "30", "40", "45", "50", "60", "70", "75", "80", "85", "90", "120", "150", "160", "180", "190"], valdct["MSSubClass"])
+            inarr = np.hstack((inarr, unitary_coding(["A", "C", "FV", "I", "RH", "RL", "RP", "RM"], valdct["MSZoning"])))
+            inarr = np.hstack((inarr,[to_float(valdct["LotFrontage"]) / get_max_val("LotFrontage", dctlst)]))
     return [0, 0]
