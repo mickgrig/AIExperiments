@@ -72,8 +72,8 @@ all_attributes = \
         ("BsmtHalfBath", []), #2 = 257
         ("FullBath", []), #2 = 259
         ("HalfBath", []), #2 = 261
-        ("Bedroom", []), #2 = 263
-        ("Kitchen", []), #2 = 265
+        ("BedroomAbvGr", []), #2 = 263 (incorrect decription key)
+        ("KitchenAbvGr", []), #2 = 265  (incorrect decription key)
         ("KitchenQual", ["Ex", "Gd", "TA", "Fa", "Po"]), #5 = 270
         ("TotRmsAbvGrd", []), #2 = 272
         ("Functional", ["Typ", "Min1", "Min2", "Mod", "Maj1", "Maj2", "Sev", "Sal"]), #8 = 280
@@ -84,8 +84,24 @@ all_attributes = \
         ("GarageFinish", ["Fin", "RFn", "Unf", "NA"]), #4 = 300
         ("GarageCars", []), #2 = 302
         ("GarageArea", []), #2 = 304
+        ("GarageQual", ["Ex", "Gd", "TA", "Fa", "Po", "NA"]), #6 = 310
+        ("GarageCond", ["Ex", "Gd", "TA", "Fa", "Po", "NA"]), #6 = 316
+        ("PavedDrive", ["Y", "P", "N"]), #3 = 319
+        ("WoodDeckSF", []), #2 = 321
+        ("OpenPorchSF", []), #2 = 323
+        ("EnclosedPorch", []), #2 = 325
+        ("3SsnPorch", []), #2 = 327
+        ("ScreenPorch", []), #2 = 329
+        ("PoolArea", []), #2 = 331
+        ("PoolQC", ["Ex", "Gd", "TA", "Fa", "NA"]), #5 = 336
+        ("Fence", ["GdPrv", "MnPrv", "GdWo", "MnWw", "NA"]), #5 = 341
+        ("MiscFeature", ["Elev", "Gar2", "Othr", "Shed", "TenC", "NA"]), #6 = 347
+        ("MiscVal", []), #2 = 349
+        ("MoSold", []), #2 = 351
+        ("YrSold", []), #2 = 353
+        ("SaleType", ["WD", "CWD", "VWD", "New", "COD", "Con", "ConLw", "ConLI", "ConLD", "Oth"]), #10 = 363
+        ("SaleCondition", ["Normal", "Abnorml", "AdjLand", "Alloca", "Family", "Partial"]), #6 = 369
     ]
-
 
 def float_coding(valdct, attr, maxvals_dct):
     retarr = np.zeros(2)
@@ -127,16 +143,16 @@ def make_max_dict(dctlst):
 def file_to_data(file_name):
     dctlst = make_base_dictlst(file_name) #read file and make working dictionary
     maxvals_dct = make_max_dict(dctlst) #make max values dictionary for number attributes
-
+    rawlst = []
     for valdct in dctlst: #for each input example
-        inarr = np.ndarray(0)
+        inrow = np.ndarray(0)
         for attribute in all_attributes:
             attr_name = attribute[0]
             attr_range = attribute[1]
             if len(attr_range) == 0: #number attribute
-                inarr = np.hstack((inarr, float_coding(valdct, attr_name, maxvals_dct)))
+                inrow = np.hstack((inrow, float_coding(valdct, attr_name, maxvals_dct)))
             else: #quality attribute
-                inarr = np.hstack((inarr, unitary_coding(attr_range, valdct[attr_name])))
-        print(len(inarr))
-        break
-    return [0, 0]
+                inrow = np.hstack((inrow, unitary_coding(attr_range, valdct[attr_name])))
+        rawlst.append(inrow)
+    inmtx = np.ndarray(rawlst)
+    return inmtx
