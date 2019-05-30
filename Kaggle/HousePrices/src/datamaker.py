@@ -1,19 +1,42 @@
 import csv
 from keras.utils import np_utils
 import numpy as np
+import jellyfish as jf
 
-def unitary_coding(possible_val_lst, value):
+open('logout.txt', 'w').close() #clear log-file
+
+def unitary_coding(valdct, attribute):
+    attr_name = attribute[0]
+    attr_range = attribute[1]
+    value = valdct[attr_name]
     val_idx = -1
-    if value in possible_val_lst:
-        val_idx = possible_val_lst.index(value)
+    if value in attr_range:
+        val_idx = attr_range.index(value)
     else:
-        for i in range(0, len(possible_val_lst)):
-            if possible_val_lst[i] in value: #list element is the part of value
+        levdist = len(value) #maximum levenstein distance
+        for i in range(0, len(attr_range)):
+            curlevdist = jf.levenshtein_distance(value, attr_range[i])
+            if curlevdist < levdist:
+                levdist = curlevdist
                 val_idx = i
-                break
-    coded_out = np_utils.to_categorical(val_idx, num_classes=len(possible_val_lst))
-    if val_idx == -1:
-        raise "Fatal error! Unrecognized symbol!"
+        if val_idx >= 0:
+            with open("logout.txt", "a") as logf:
+                msg = "WARNING. Id = " + valdct["Id"] + ", attr_name = '" + attr_name + "', attr_val = '"\
+                    + value + "' among [" + ",".join(attr_range) + "] didn't find exact attribute. Chosen nearest = '"\
+                    + attr_range[val_idx]
+                msg += "(leven_dist=" + str(levdist) + ")"
+                msg += "'\n\n"
+                logf.write(msg)
+
+    if val_idx != -1: #parsing attribute successful
+        coded_out = np_utils.to_categorical(val_idx, num_classes=len(attr_range))
+    else: #bad case = attribute didn't parsed
+        with open("logout.txt", "a") as logf:
+            msg = "ERROR. Id = " + valdct["Id"] + ", attr_name = '" + attr_name + "', attr_val = '" \
+                  + value + "' among [" + ",".join(attr_range) + "] didn't find any similar attribute."
+            msg += "'\n\n"
+            logf.write(msg)
+        coded_out = np.zeros(len(attr_range))
     return coded_out
 
 all_attributes = \
@@ -42,6 +65,9 @@ all_attributes = \
         ("YearRemodAdd", []), #2 = 117
         ("RoofStyle", ["Flat", "Gable", "Gambrel", "Hip", "Mansard", "Shed"]), #6 = 123
         ("RoofMatl", ["ClyTile", "CompShg", "Membran", "Metal", "Roll", "Tar&Grv", "WdShake", "WdShngl"]), #8 = 131
+
+        #может быть  Wd Shng or WdShing !
+
         ("Exterior1st", ["AsbShng", "AsphShn", "BrkComm", "BrkFace", "CBlock", "CemntBd", "HdBoard", "ImStucc",
                          "MetalSd", "Other", "Plywood", "PreCast", "Stone", "Stucco", "VinylSd", "Wd Sdng", "WdShing"]), #17 = 148
         ("Exterior2nd", ["AsbShng", "AsphShn", "BrkComm", "BrkFace", "CBlock", "CemntBd", "HdBoard", "ImStucc",
@@ -120,6 +146,7 @@ def make_base_dictlst(file_name):
             for attr_descr in all_attributes:
                 attr_name = attr_descr[0]
                 linedct[attr_name] = line[attr_name]
+            linedct["Id"] = line["Id"] #separatly
             dctlst.append(linedct)
     return dctlst
 
@@ -141,6 +168,8 @@ def make_max_dict(dctlst):
     return maxvals_dct
 
 def file_to_data(file_name):
+    #print(jf.levenshtein_distance('berne', 'born'))
+
     dctlst = make_base_dictlst(file_name) #read file and make working dictionary
     maxvals_dct = make_max_dict(dctlst) #make max values dictionary for number attributes
     rawlst = []
@@ -152,7 +181,9 @@ def file_to_data(file_name):
             if len(attr_range) == 0: #number attribute
                 inrow = np.hstack((inrow, float_coding(valdct, attr_name, maxvals_dct)))
             else: #quality attribute
-                inrow = np.hstack((inrow, unitary_coding(attr_range, valdct[attr_name])))
+                inrow = np.hstack((inrow, unitary_coding(valdct, attribute)))
         rawlst.append(inrow)
-    inmtx = np.ndarray(rawlst)
+    print("rawlist size = ", len(rawlst))
+    #inmtx = np.ndarray(rawlst)
+    inmtx = np.zeros(2)
     return inmtx
