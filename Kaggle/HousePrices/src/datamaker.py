@@ -65,9 +65,6 @@ all_attributes = \
         ("YearRemodAdd", []), #2 = 117
         ("RoofStyle", ["Flat", "Gable", "Gambrel", "Hip", "Mansard", "Shed"]), #6 = 123
         ("RoofMatl", ["ClyTile", "CompShg", "Membran", "Metal", "Roll", "Tar&Grv", "WdShake", "WdShngl"]), #8 = 131
-
-        #может быть  Wd Shng or WdShing !
-
         ("Exterior1st", ["AsbShng", "AsphShn", "BrkComm", "BrkFace", "CBlock", "CemntBd", "HdBoard", "ImStucc",
                          "MetalSd", "Other", "Plywood", "PreCast", "Stone", "Stucco", "VinylSd", "Wd Sdng", "WdShing"]), #17 = 148
         ("Exterior2nd", ["AsbShng", "AsphShn", "BrkComm", "BrkFace", "CBlock", "CemntBd", "HdBoard", "ImStucc",
@@ -127,6 +124,7 @@ all_attributes = \
         ("YrSold", []), #2 = 353
         ("SaleType", ["WD", "CWD", "VWD", "New", "COD", "Con", "ConLw", "ConLI", "ConLD", "Oth"]), #10 = 363
         ("SaleCondition", ["Normal", "Abnorml", "AdjLand", "Alloca", "Family", "Partial"]), #6 = 369
+        ("SalePrice", []), #output (special attrubute)
     ]
 
 def float_coding(valdct, attr, maxvals_dct):
@@ -168,22 +166,30 @@ def make_max_dict(dctlst):
     return maxvals_dct
 
 def file_to_data(file_name):
-    #print(jf.levenshtein_distance('berne', 'born'))
-
     dctlst = make_base_dictlst(file_name) #read file and make working dictionary
     maxvals_dct = make_max_dict(dctlst) #make max values dictionary for number attributes
-    rawlst = []
+    input_mtx = np.ndarray(0)
+    output_vec = np.ndarray(0)
     for valdct in dctlst: #for each input example
+        #input value
         inrow = np.ndarray(0)
         for attribute in all_attributes:
             attr_name = attribute[0]
+            if attr_name == "SalePrice":
+                continue
             attr_range = attribute[1]
             if len(attr_range) == 0: #number attribute
                 inrow = np.hstack((inrow, float_coding(valdct, attr_name, maxvals_dct)))
             else: #quality attribute
                 inrow = np.hstack((inrow, unitary_coding(valdct, attribute)))
-        rawlst.append(inrow)
-    print("rawlist size = ", len(rawlst))
-    #inmtx = np.ndarray(rawlst)
-    inmtx = np.zeros(2)
-    return inmtx
+        if input_mtx.shape[0] == 0:
+            input_mtx = inrow
+        else:
+            input_mtx = np.vstack((input_mtx, inrow))
+
+        #output value
+        if output_vec.shape[0] == 0:
+            output_vec = np.array([float(valdct["SalePrice"]) / maxvals_dct["SalePrice"]])
+        else:
+            output_vec = np.vstack((output_vec, np.array([float(valdct["SalePrice"]) / maxvals_dct["SalePrice"]])))
+    return input_mtx, output_vec
