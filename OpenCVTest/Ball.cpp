@@ -6,7 +6,7 @@
 
 using namespace cv;
 
-Ball::Ball(const Area & area) : radius(20)
+Ball::Ball(const Area & area) : radius(20), linear(false)
 {
 	start_init(area);
 }
@@ -17,8 +17,10 @@ void Ball::start_init(const Area & area)
 }
 bool Ball::move(const InitConditions & init_cond, const Area & area, unsigned int msec_delta)
 {
-	//return linear_move(init_cond, area, msec_delta);
-	return ballistic_move(init_cond, area, msec_delta);
+	if (linear)
+		return linear_move(init_cond, area, msec_delta);
+	else
+		return ballistic_move(init_cond, area, msec_delta);
 }
 
 bool Ball::linear_move(const InitConditions & init_cond, const Area & area, unsigned int msec_delta)
@@ -83,4 +85,6 @@ bool Ball::out_of_area(const Area & area) const
 void Ball::draw(const Mat & image) const
 {
 	circle(image, center, radius, Scalar(0, 0, 255), -1);
+	String ball_traj = ( linear ? "linear" : "ballistic" );
+	putText(image, String("Ball trajectory: ") + ball_traj, Point(10, 60), FONT_HERSHEY_SIMPLEX, 0.7, Scalar(255, 255, 255));
 }

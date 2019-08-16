@@ -10,7 +10,8 @@ using namespace cv;
 using namespace std;
 
 Racket::Racket(const Area & _area, const Ball & ball) : 
-	pos_y(area.height / 2), len(2 * ball.radius), area(_area), step(0), target_y(0)
+	pos_y(area.height / 2), len(2 * ball.radius), area(_area), step(0), target_y(0),
+	linear(false)
 {
 }
 
@@ -20,6 +21,8 @@ void Racket::draw(const Mat & image) const
 	auto endpt = Point2d(area.width, bottom());
 	line(image, begpt, endpt, Scalar(0, 255, 0), 10);
 	circle(image, Point2d(area.width, target_y), 3, Scalar(0, 0, 255), -1); //точка притяжения для ракетки
+	String racket_est = (linear ? "linear" : "ballistic");
+	putText(image, String("Racket estimation: ") + racket_est, Point(10, 90), FONT_HERSHEY_SIMPLEX, 0.7, Scalar(255, 255, 255));
 }
 
 void Racket::move(const Area & area)

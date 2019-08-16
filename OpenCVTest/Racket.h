@@ -16,6 +16,7 @@ private:
 	double target_y, pos_y;
 	double len;
 	double step;
+	bool linear; //true - линейна€ интерпол€ци€, false - баллистическа€ интерпол€ци€
 	double top() const;
 	double bottom() const;
 	void estimate_target(unsigned int delta_ms);
