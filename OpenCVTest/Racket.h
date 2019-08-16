@@ -19,4 +19,6 @@ private:
 	double top() const;
 	double bottom() const;
 	void estimate_target(unsigned int delta_ms);
+	void estimate_target_linear(unsigned int delta_ms);
+	void estimate_target_ballistic(unsigned int delta_ms);
 };
