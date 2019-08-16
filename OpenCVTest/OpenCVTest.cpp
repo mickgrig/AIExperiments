@@ -81,25 +81,9 @@ int _tmain(int argc, _TCHAR* argv[])
 			circle(image, *ball_center_ptr, 3, Scalar(128, 0, 128), -1);
 
 		racket.observed(ball_center_ptr, msec_delta);
-
-		///////////////////////////////
-		//vector<cv::Mat> contours;
-		//vector<Vec4i> hierarchy;
-		//auto height = image.size.p[0];
-		//auto width = image.size.p[1];
-		//Mat grayimage = Mat::zeros(height, width, CV_8UC1);
-		//cvtColor(image, grayimage, COLOR_BGR2GRAY);
-
-		//auto subimage = grayimage.colRange(area.observe_x1 + 10, area.observe_x2 - 10);
-		//findContours(subimage, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE);
-
-		//drawContours(image, contours, -1, Scalar(128, 0, 128));
-		////////////////////////////////
+		racket.move(area);
 
 		imshow("Catching ball", image);
-
-		//racket.observe(ball, msec_delta);
-		racket.move(area);
 	}
 	return 0;
 }

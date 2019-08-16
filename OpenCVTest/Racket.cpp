@@ -22,7 +22,7 @@ void Racket::draw(const Mat & image) const
 	line(image, begpt, endpt, Scalar(0, 255, 0), 10);
 	circle(image, Point2d(area.width, target_y), 3, Scalar(0, 0, 255), -1); //точка притяжения для ракетки
 	String racket_est = (linear ? "linear" : "ballistic");
-	putText(image, String("Racket mode: ") + racket_est + String("(\'r\' - toggle)"), Point(10, 90), FONT_HERSHEY_SIMPLEX, 0.7, Scalar(255, 255, 255));
+	putText(image, String("Racket mode: ") + racket_est + String("(\'r\' to toggle)"), Point(10, 90), FONT_HERSHEY_SIMPLEX, 0.7, Scalar(255, 255, 255));
 }
 
 void Racket::move(const Area & area)
@@ -61,8 +61,10 @@ void Racket::observed(shared_ptr<Point2d> ball_center_ptr, unsigned int delta_ms
 
 void Racket::estimate_target(unsigned int delta_ms)
 {
-	//estimate_target_linear(delta_ms);
-	estimate_target_ballistic(delta_ms);
+	if (linear)
+		estimate_target_linear(delta_ms);
+	else
+		estimate_target_ballistic(delta_ms);
 }
 
 void Racket::estimate_target_linear(unsigned int delta_ms)
