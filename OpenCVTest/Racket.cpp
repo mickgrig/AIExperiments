@@ -64,9 +64,10 @@ void Racket::estimate_target(unsigned int delta_ms)
 		auto pt2 = ball_snapshots.back();
 		auto delta_y = (area.width - pt2.x) * (pt2.y - pt1.y) / (pt2.x - pt1.x);
 		target_y = pt2.y + delta_y;
+		auto diff = pt2.x - pt1.x;
 		auto dx = (pt2.x - pt1.x) / ball_snapshots.size();
 		auto rest_x = area.width - pt2.x;
-		auto step_count = (rest_x / dx) - 3;
+		auto step_count = (rest_x / (2 * dx));
 		step = (target_y - pos_y) / step_count;
 	}
 }
