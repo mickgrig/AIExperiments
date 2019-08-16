@@ -86,5 +86,5 @@ void Ball::draw(const Mat & image) const
 {
 	circle(image, center, radius, Scalar(0, 0, 255), -1);
 	String ball_traj = ( linear ? "linear" : "ballistic" );
-	putText(image, String("Ball trajectory: ") + ball_traj, Point(10, 60), FONT_HERSHEY_SIMPLEX, 0.7, Scalar(255, 255, 255));
+	putText(image, String("Ball mode: ") + ball_traj + String("(\'b\' - toggle)"), Point(10, 60), FONT_HERSHEY_SIMPLEX, 0.7, Scalar(255, 255, 255));
 }

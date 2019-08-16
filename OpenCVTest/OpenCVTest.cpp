@@ -66,6 +66,10 @@ int _tmain(int argc, _TCHAR* argv[])
 		auto retcode = waitKey(msec_delta);
 		if (retcode == 27) //Escape to exit
 			break;
+		if (retcode == 98) //"b"
+			ball.toggle_mode();
+		if (retcode == 114) //"r"
+			racket.toggle_mode();
 		Mat image = Mat::zeros(area.height, area.width, CV_8UC3);
 		draw(area, ball, racket, image);
 		if (auto out_of_area = ball.move(initCond, area, msec_delta))

@@ -3,6 +3,7 @@
 struct InitConditions;
 struct Ball
 {
+public:
 	Ball(const Area &);
 	void start_init(const Area &);
 	bool move(const InitConditions &, const Area & area, unsigned int msec_delta);
@@ -11,6 +12,7 @@ struct Ball
 	const unsigned int radius;
 	cv::Point2d center;
 	bool is_linear() const { return linear; }
+	void toggle_mode() { linear = !linear; }
 
 private:
 	bool linear; //true - линейная траектория, false - баллистическая

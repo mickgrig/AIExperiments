@@ -10,6 +10,7 @@ public:
 	void move(const Area &);
 	void observed(std::shared_ptr<cv::Point2d> ball_center_ptr, unsigned int delta_ms);
 	std::vector<cv::Point2d> ball_snapshots;
+	void toggle_mode() { linear = !linear; }
 	
 private:
 	const Area & area;
