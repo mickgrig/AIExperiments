@@ -7,6 +7,8 @@ from keras.utils import np_utils
 
 digitsNum = 10 #цифровые выходы
 
+#some change from master
+
 (trainInp, trainOut), (testInp, testOut) = mnist.load_data() #обучающий и тестовый наборы
 
 # trainInp: 60000 картинок (28x28)
