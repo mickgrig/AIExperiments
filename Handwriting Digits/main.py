@@ -8,6 +8,7 @@ from keras.utils import np_utils
 digitsNum = 10 #цифровые выходы
 
 #some change from master
+#some change from master number 2
 
 (trainInp, trainOut), (testInp, testOut) = mnist.load_data() #обучающий и тестовый наборы
 
